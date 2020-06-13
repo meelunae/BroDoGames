@@ -2,7 +2,7 @@ package brodo.model;
 
 public class ProdottoBean {
 	
-	public ProdottoBean(int id, String titolo, int nVenduti, double prezzoFis, double prezzoDig, String descrizione, int qtaFis, int qtaDig, String casaSviluppatrice, boolean inVendita, int pegi, String data) {
+	public ProdottoBean(int id, String titolo, int nVenduti, double prezzoFis, double prezzoDig, String console, String descrizione, int qtaFis, int qtaDig, String casaSviluppatrice, boolean inVendita, int pegi, String data) {
 		super();
 		this.id = id;
 		this.descrizione = descrizione;
@@ -10,6 +10,7 @@ public class ProdottoBean {
 		this.data = data;
 		this.pegi = pegi;
 		this.inVendita = inVendita;
+		this.console = console;
 		this.casaSviluppatrice = casaSviluppatrice;
 		this.qtaFis = qtaFis;
 		this.qtaDig = qtaDig;
@@ -116,7 +117,12 @@ public class ProdottoBean {
 		return prezzoDig;
 		
 	}
-	
+	public String getConsole() {
+		return console;
+	}
+	public void setConsole(String console) {
+		this.console = console;
+	}
 
 	private int id;
 	private String descrizione;
@@ -130,6 +136,7 @@ public class ProdottoBean {
 	private int nVenduti;
 	private double prezzoFis;
 	private double prezzoDig;
+	private String console;
 	private static final double iva = 0.22;
 
 }

@@ -39,7 +39,7 @@ public class ProdottoDAO {
 	public synchronized void doSave(ProdottoBean prod) {
 		Connection conn = null;
 		PreparedStatement ps = null;
-		String query = "INSERT INTO prodotto (titolo, numVenduti, prezzoFisico, prezzoDigitale, descrizione, qtaFisico, qtaDigitale, casaSviluppatrice, inVendita, pegi, dataUscita) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		String query = "INSERT INTO prodotto (titolo, numVenduti, prezzoFisico, prezzoDigitale, descrizione, qtaFisico, qtaDigitale, casaSviluppatrice, inVendita, pegi, dataUscita, console) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		try {
 			
 			conn = ds.getConnection();
@@ -55,6 +55,7 @@ public class ProdottoDAO {
 			ps.setBoolean(9, prod.isInVendita());
 			ps.setInt(10, prod.getPegi());
 			ps.setString(11, prod.getData());
+			ps.setString(12, prod.getConsole());
 			ps.executeUpdate();
 			
 		} catch(SQLException e) {
@@ -110,7 +111,7 @@ public class ProdottoDAO {
 			result.setInVendita(rs.getBoolean("inVendita"));
 			result.setPegi(rs.getInt("pegi"));
 			result.setData(rs.getString("dataUscita"));
-
+			result.setConsole(rs.getString("console"));
 			
 		} catch(SQLException e) {
 			
@@ -229,6 +230,7 @@ public class ProdottoDAO {
 					result.setInVendita(rs.getBoolean("inVendita"));
 					result.setPegi(rs.getInt("pegi"));
 					result.setData(rs.getString("dataUscita"));
+					result.setConsole(rs.getString("console"));
 					output.add(result);
 				}
 
@@ -388,11 +390,12 @@ public class ProdottoDAO {
 	}
 	
 	public synchronized void doUpdateQtaFisico(int newQta, int id){
+		if(newQta < 0) return;
         Connection conn = null;
         PreparedStatement ps = null;
         String query = "UPDATE prodotto SET qtaFisico = ? WHERE id = ?";
         try{
-        	System.out.println("Id:" + id);
+        	//System.out.println("Id:" + id);
             conn = ds.getConnection();
             ps = conn.prepareStatement(query);
             ps.setInt(1, newQta);
@@ -519,7 +522,8 @@ public synchronized void doSumQtaFisico(int id, int qta) {
 	}
 
     public synchronized void doUpdateQtaDigitale(int newQta, int id){
-        Connection conn = null;
+        if(newQta < 0) return;
+    	Connection conn = null;
         PreparedStatement ps = null;
         String query = "UPDATE prodotto SET qtaDigitale = ? WHERE id = ?";
         try{
@@ -590,7 +594,81 @@ public synchronized void doSumQtaFisico(int id, int qta) {
         
     }
 
+    public synchronized void doUpdateCasaSviluppatrice(String newCasa, int idProdotto) {
+    	
+        Connection conn = null;
+        PreparedStatement ps = null;
+        String query =  " UPDATE prodotto SET casaSviluppatrice = ? WHERE id = ?";
+        try {
+            conn = ds.getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, newCasa);
+            ps.setInt(2, idProdotto);
+            ps.executeUpdate();
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+        
+        try {
+			
+			conn.close();
+			
+		} catch(Exception e) {
+			
+			e.printStackTrace();
+			
+		}
+		
+		try {
+			
+			ps.close();
+			
+		} catch(Exception e) {
+			
+			e.printStackTrace();
+			
+		}
+    	
+    }
+    
+    public synchronized void doUpdateConsole(String newConsole, int idProdotto) {
+    	
+        Connection conn = null;
+        PreparedStatement ps = null;
+        String query =  " UPDATE prodotto SET console = ? WHERE id = ?";
+        try {
+            conn = ds.getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, newConsole);
+            ps.setInt(2, idProdotto);
+            ps.executeUpdate();
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+        
+        try {
+			
+			conn.close();
+			
+		} catch(Exception e) {
+			
+			e.printStackTrace();
+			
+		}
+		
+		try {
+			
+			ps.close();
+			
+		} catch(Exception e) {
+			
+			e.printStackTrace();
+			
+		}
 
+    	
+    }
+    
     public synchronized void doUpdateDescrizione(String newDescrizione, int idProdotto) {
         Connection conn = null;
         PreparedStatement ps = null;

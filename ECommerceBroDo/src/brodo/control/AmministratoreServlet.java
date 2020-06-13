@@ -8,7 +8,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import brodo.model.OrdineDAO;
 import brodo.model.ProdottoBean;
 import brodo.model.ProdottoDAO;
 
@@ -21,6 +23,7 @@ public class AmministratoreServlet extends HttpServlet {
 	static {
 		
 		p = new ProdottoDAO();
+		o = new OrdineDAO();
 		
 	}
 
@@ -39,7 +42,13 @@ public class AmministratoreServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		System.out.println("lol");
+		HttpSession session = request.getSession();
+		if(session.getAttribute("admin") == null) {
+			
+			response.sendRedirect("./Catalogo");
+			return;
+			
+		}
 		if(request.getParameter("action") != null) {
 
 			if(request.getParameter("action").equalsIgnoreCase("addProdotto")) {
@@ -71,6 +80,8 @@ public class AmministratoreServlet extends HttpServlet {
 				p.doUpdateQtaDigitale(Integer.parseInt(request.getParameter("qtaDigitale")), Integer.parseInt(request.getParameter("id")));
 				p.doUpdateQtaFisico(Integer.parseInt(request.getParameter("qtaFisico")), Integer.parseInt(request.getParameter("id")));
 				p.doUpdateTitolo(request.getParameter("titolo"), Integer.parseInt(request.getParameter("id")));
+				p.doUpdateConsole(request.getParameter("console"), Integer.parseInt(request.getParameter("id")));
+				p.doUpdateCasaSviluppatrice(request.getParameter("casaSviluppatrice"), Integer.parseInt(request.getParameter("id")));
 				
 			} else if(request.getParameter("action").equalsIgnoreCase("details")) {
 				
@@ -85,14 +96,33 @@ public class AmministratoreServlet extends HttpServlet {
 				//request.removeAttribute("prodDaMod");
 				request.setAttribute("prodDaMod", (ProdottoBean) p.doRetrieveByKey(Integer.parseInt(request.getParameter("id"))));
 				
-			}
-
+			} 
 			
 		}
 		
 		String ordinamento = request.getParameter("sort");
 		request.removeAttribute("catalogo");
 		request.setAttribute("catalogo", p.doRetrieveAll(ordinamento));
+		if(request.getParameter("scelta") != null) {
+			if(request.getParameter("scelta").equals("niente")) {
+				
+				request.setAttribute("ordini", o.doRetrieveAll());
+				
+			} else if(request.getParameter("scelta").equals("data")) {
+				
+				request.setAttribute("ordini", o.doRetrieveByDate(request.getParameter("data1"), request.getParameter("data2")));
+				
+			} else if(request.getParameter("scelta").equals("id")) {
+				
+				request.setAttribute("ordini", o.doRetrieveByUser(Integer.parseInt(request.getParameter("id"))));
+				
+			}
+			
+		} else {
+			
+			request.setAttribute("ordini", o.doRetrieveAll());			
+			
+		}
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/CatalogoAdmin.jsp");
 		dispatcher.forward(request, response);
 
@@ -107,5 +137,6 @@ public class AmministratoreServlet extends HttpServlet {
 	}
 	
 	private static ProdottoDAO p;
+	private static OrdineDAO o;
 
 }

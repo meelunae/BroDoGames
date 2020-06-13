@@ -44,27 +44,25 @@ public class AccessoServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		UserBean result = u.checkLogin(email, password);
 		if(result == null){
-			
+			System.out.println("no");
 			RequestDispatcher view = request.getRequestDispatcher("/LogIn.jsp");
 			view.forward(request, response);
 			return;
 			
 		} else if(result.isAdmin()) {
-
+			System.out.println("admin");
 			session.setAttribute("admin", true);
 			session.setAttribute("userLogged", true);
 			session.setAttribute("userId", result.getId());
-			System.out.println(session.getAttribute("userId"));
 			session.setAttribute("username", result.getUsername());
 			RequestDispatcher view = request.getRequestDispatcher("/Amministratore");
 			view.forward(request, response);
 			return;
 			
 		} else {
-			
+			System.out.println("utente");
 			session.setAttribute("userLogged", true);
 			session.setAttribute("userId", result.getId());
-			System.out.println(session.getAttribute("userId"));
 			session.setAttribute("username", result.getUsername());
 			RequestDispatcher view = request.getRequestDispatcher("/Catalogo");
 			view.forward(request, response);

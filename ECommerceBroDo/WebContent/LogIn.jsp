@@ -16,6 +16,7 @@
 		</fieldset>
 		<input type="submit">
 	</form>
+	<p>Non sei ancora registrato?<a href="SignUp.jsp">Registrati ora!</a></p>
 	<%@include file="Footer.jsp" %>
 </body>
 </html>

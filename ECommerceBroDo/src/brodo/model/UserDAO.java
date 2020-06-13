@@ -241,9 +241,10 @@ public class UserDAO {
 	
 	public synchronized UserBean checkLogin(String email, String password) {
 		
+		if(email == null) return null;
 		Connection conn = null;
 		PreparedStatement ps = null;
-		UserBean result = new UserBean();
+		UserBean result = null;
 		String query = "SELECT * FROM utente WHERE password = SHA(?) AND email = ?";
 		try {
 			
@@ -251,14 +252,15 @@ public class UserDAO {
 			ps = conn.prepareStatement(query);
 			ps.setString(1, password);
 			ps.setString(2, email);
-			System.out.println(ps);
+			//System.out.println(ps);
 			ResultSet rs = ps.executeQuery();
 			if(!rs.next()) {
 				
-				System.out.println("ciao");
+				//System.out.println("ciao");
 				return null;
 				
 			}
+			result = new UserBean();
 			result.setId(rs.getInt("id"));
 			result.setNome(rs.getString("nome"));
 			result.setCognome(rs.getString("cognome"));

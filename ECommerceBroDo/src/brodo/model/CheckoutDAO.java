@@ -87,7 +87,7 @@ public class CheckoutDAO {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		int lastId = getLastId() + 1;
-		String query="INSERT INTO ordine (idOrdine, idUtente, idProdotto, quantitaFisico, quantitaDigitale, dataOra, prezzo, consegnato, iva) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		String query="INSERT INTO ordine (idOrdine, idUtente, idProdotto, quantitaFisico, quantitaDigitale, dataOra, prezzoFis, prezzoDig, consegnato, iva) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		try {
 			conn = ds.getConnection();
 			conn.setAutoCommit(false);
@@ -104,9 +104,10 @@ public class CheckoutDAO {
 				int mm = gc.get(GregorianCalendar.MONTH)+1; 
 				int dd = gc.get(GregorianCalendar.DAY_OF_MONTH);
 				ps.setString(6, yy+"-"+mm+"-"+dd);
-				ps.setDouble(7, i.getProdotto().getPrezzoFisSenzaIva() * i.getQtaFis() + i.getProdotto().getPrezzoDigSenzaIva() * i.getQtaDig());
-				ps.setBoolean(8, false);
-				ps.setDouble(9, i.getProdotto().getIva());
+				ps.setDouble(7, i.getProdotto().getPrezzoFisSenzaIva());
+				ps.setDouble(8, i.getProdotto().getPrezzoDigSenzaIva() );
+				ps.setBoolean(9, false);
+				ps.setDouble(10, i.getProdotto().getIva());
 				ps.executeUpdate();
 				
 			}

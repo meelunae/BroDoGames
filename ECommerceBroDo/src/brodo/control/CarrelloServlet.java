@@ -77,8 +77,8 @@ public class CarrelloServlet extends HttpServlet {
 
 						for(int i = 0; i < c.getProdotti().size(); i++) {
 							
-							pd.doSumQtaFisico(c.getProdotti().get(0).getProdotto().getId(), - c.getProdotti().get(i).getQtaFis());
-							pd.doSumQtaDigitale(c.getProdotti().get(0).getProdotto().getId(), - c.getProdotti().get(i).getQtaDig());							
+							pd.doSumQtaFisico(c.getProdotti().get(i).getProdotto().getId(), - c.getProdotti().get(i).getQtaFis());
+							pd.doSumQtaDigitale(c.getProdotti().get(i).getProdotto().getId(), - c.getProdotti().get(i).getQtaDig());							
 							
 						}
 						request.setAttribute("cart", c);
