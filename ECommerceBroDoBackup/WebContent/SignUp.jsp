@@ -5,38 +5,39 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Iscriviti</title>
-<link href="css/catalogo.css" rel="stylesheet">
 </head>
 <body>
 	<%@include file="Header.jsp" %>
+	<div class="login-form">
 	<form action="Registrazione" method="post" onsubmit="event.preventDefault(); validateSignUp(this)">
 	
 		<fieldset>
-			<legend>Dati anagrafici</legend>
+			<legend align="center">Dati anagrafici</legend>
 			<input type="text" name="nome" required placeholder="Nome" id="name">
-			<span id="errNome"></span><br>
+			<div id="errNome"></div>
 			<input type="text" name="cognome" required placeholder="Cognome" id="surname">
-			<span id="errCognome"></span><br>
+			<div id="errCognome"></div>
 			<input type="date" name="dataNascita" required id="date">
-			<span id="errData"></span><br>
+			<div id="errData"></div>
 		</fieldset>
 		<fieldset>
-			<legend>Dati di registrazione</legend>
+			<legend align="center">Dati di registrazione</legend>
 			<input type="email" name="email" required placeholder="Email" id="email">
-			<span id="errEmail"></span><br>
+			<div id="errEmail"></div>
 			<input type="text" name="username" required placeholder="Username" id="username">
-			<span id="errUsername"></span><br>
+			<div id="errUsername"></div>
 			<input type="password" name="password" required placeholder="Password" id="password">
-			<span id="errPw"></span><br>
+			<div id="errPw"></div>
 		</fieldset>
-		<input type="submit" value="Invia">
+		<input type="submit" value="Registrati" class="button">
 		
 	</form>
+	</div>
 	<%if(session.getAttribute("failed") != null){
 		
 		session.removeAttribute("failed"); %>
 		
-		<p class="incorrect">Registrazione fallita!</p>
+		<p class="incorrect" align="center">Registrazione fallita!</p>
 		
 	<% }
 	%>

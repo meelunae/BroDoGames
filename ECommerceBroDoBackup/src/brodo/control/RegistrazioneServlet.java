@@ -54,7 +54,6 @@ public class RegistrazioneServlet extends HttpServlet {
 			
 			HttpSession session = request.getSession();
 			session.setAttribute("failed", true);
-			System.out.println("lol");
 			RequestDispatcher view = request.getRequestDispatcher("SignUp.jsp");
 			view.forward(request, response);
 			return;

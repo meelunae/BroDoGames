@@ -105,7 +105,7 @@ public class CheckoutDAO {
 				int dd = gc.get(GregorianCalendar.DAY_OF_MONTH);
 				ps.setString(6, yy+"-"+mm+"-"+dd);
 				ps.setDouble(7, i.getProdotto().getPrezzoFisSenzaIva());
-				ps.setDouble(8, i.getProdotto().getPrezzoDigSenzaIva() );
+				ps.setDouble(8, i.getProdotto().getPrezzoDigSenzaIva());
 				ps.setBoolean(9, false);
 				ps.setDouble(10, i.getProdotto().getIva());
 				ps.executeUpdate();

@@ -17,18 +17,16 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Catalogo</title>
-<link rel="stylesheet" href="css/catalogo.css">
 </head>
 <body>
 	<%@include file="Header.jsp" %>
-	<h1>Catalogo</h1>
 	
-	<form action="" method="get">
+	<form action="" method="get" id="ordinaPer">
 		<label>Ordina per: </label>
 		
 		<div class="custom-select">
 		<select id="sort" name="sort">
-  			<option value="id">Codice</option>
+  			<option value="id">Default</option>
   			<option value="titolo">Titolo</option>
   			<option value="prezzoFisico">Prezzo</option>
 		</select>
@@ -37,38 +35,31 @@
 		<input type="submit" value="Ordina" class="button" id="sort-submit">
 	</form>
 	
-	<div class="table">
+	<div class="custom-table">
 	<table border=1>
-		<!-- 
-		<tr>
-		
-			<th>Copertina</th>
-			<th><a href="Catalogo?sort=id">Codice</a></th>
-			<th><a href="Catalogo?sort=titolo">Titolo</a></th>
-			<th><a href="Catalogo?sort=prezzoFisico">Prezzo</a></th>
-			<th>Azione</th>
-		
-		</tr>
-		 -->
 		
 		<% if(catalogo != null && catalogo.size() != 0){
-			
+
 			for(ProdottoBean p : catalogo){
 				
 		%>	
-		<tr id="data">
+		<tr class="data">
 			
-			<td> <img src="GetPicture?id=<%=p.getId() %>" onerror="this.src='./imgs/nophoto.png'" style="width:100px"></td>
+			<td class="immagine"> <img src="GetPicture?id=<%=p.getId() %>" onerror="this.src='./imgs/nophoto.png'"></td>
 			
-			<td> <%=p.getId()  %> </td>
 			
-			<td> <%=p.getTitolo()  %> </td>
+			<td class="titoloProd"> <%=p.getTitolo()%><br><span style="font-size: 12px"><%="(" + p.getConsole() + ")"%></span> </td>
 			
-			<td> <%=p.getPrezzoFis()  %> </td>	
-			
-			<td> <a class="button" href="Catalogo?action=addC&tipo=fisico&id=<%=p.getId() %>">Aggiungi al carrello (Fisico)</a><br>
-			<a class="button" href="Catalogo?action=addC&tipo=digitale&id=<%=p.getId() %>">Aggiungi al carrello (Digitale)</a><br>
-			<a class="button" href="Catalogo?action=details&id=<%=p.getId() %>">Dettagli</a></td>			
+			<td class="prezzoProd"> 
+			<%double fis = p.getPrezzoFis(); %>
+			<%=String.format("%.2f", fis) + " EUR" %>
+
+			</td>
+			<td class="bottoni"> <a class="button" onclick="event.preventDefault(); aggiungiCarrello(<%="'fis'"%>, <%=p.getId() %>)">Aggiungi al carrello (Fisico)</a><br>			
+			<a class="button" onclick="event.preventDefault(); aggiungiCarrello(<%="'dig'"%>, <%=p.getId()%>)">Aggiungi al carrello (Digitale)</a><br>
+			<a class="button" href="Catalogo?action=details&id=<%=p.getId() %>">Dettagli</a>
+			<div id=<%=p.getId() %>></div>		<!-- Serve per comunicare l'esito dell'aggiunta al carrello -->
+			</td>			
 			
 		</tr>
 				
@@ -85,7 +76,8 @@
 	
 	</table>
 	</div>
-	<a href="CarrelloServlet">Vai al carrello</a>
 <%@include file="Footer.jsp" %>
+<script src="jquery.js"></script>
+<script src="script.js"></script>
 </body>
 </html>

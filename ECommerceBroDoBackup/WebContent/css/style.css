@@ -1,80 +1,55 @@
+body{
+	background-color: #1b262c;
+	font-family: Helvetica, sans-serif;
+	color: #3282b8;
+	font-size: 16px;
+}
 
-.body {
-	margin: 0;
+/*Navbar*/
+ 
+.topnav {
+	
+  overflow: hidden;
+  background-color: #0F4C75;
+	  
 }
-/* Header CSS stuff, that I need to make actually decent */
- .topnav {
-   top: 0;
-   width: 100%;
-   overflow: hidden;
-   background-color: #0F4C75;
- }
- 
- .topnav #logo {
-     float: left;
-     display: block;
-     height: 90px;
-     weight: 90px;
- }
- 
- 
- .topnav a {
-   float: left;
-   display: block;
-   color: white;
-   text-align: center;
-   padding: 40px 20px;
-   text-decoration: none;
-   font-size: 17px;
- }
- 
- .topnav a:hover {
-   background-color: #ddd;
-   color: black;
- }
- 
- .topnav a.active {
-   background-color: #008CBA;
-   color: white;
- }
- 
- .topnav .search-container {
-     float: none;
- }
- 
- .topnav input[type=text] {
-   padding: 6px;
-   margin-top: 8px;
-   font-size: 17px;
-   border: none;
-    border-radius: 3.5rem;
-   }
- 
- .topnav .search-container button {
-   padding: 6px 10px;
-   margin-top: 8px;
-   margin-right: 18px;
-   margin-left: 4px;
-   background: #ddd;
-   font-size: 17px;
-   border: none;
-   cursor: pointer;
- }
- 
- .topnav .search-container button:hover {
-   background: #ccc;
- }
- 
-  .topnav #utente {
-       float: right;
-    }
-  
-  .container {
-      flex: 1 1 auto;  /*grow vertically*/
+
+.links, .logo{
+	
+	display: inline-block;
+	vertical-align: middle;
+	
 }
+
+.topnav a {
+	
+  float: left;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+
+}
+
+.topnav a:visited{
+	
+	color: white;
+	
+}
+
+.topnav a:hover {
+	
+  color: #1b262c;
   
+}
+
+.topnav .icon {
+	
+  display: none;
+  
+}
  
- /* Footer starts */
+ /* Footer*/
  .footer {
  position: relative;
  margin-top: 50px;
@@ -86,54 +61,450 @@
  text-align: center;
 }
 
-.f1 {
- padding: 0;
- margin: 0;
- text-align: left;
-}
+/* .f1 { */
+/*  padding: 0; */
+/*  margin: 0; */
+/*  text-align: left; */
+/* } */
 
-.f2 {
+/* .f2 { */
 
-}
+/* } */
 
-.f3 {
+/* .f3 { */
 
-}
+/* } */
 
-.f1,
-.f2,
-.f3 {
+.f1, .f2, .f3 {
 
- -moz-box-sizing: border-box;
+/*  -moz-box-sizing: border-box; */
  box-sizing: border-box;
  display: inline-block;
- text-align: right;
+ text-align: left;
  font-size: 12px;
  padding: 0 8%;
  min-width: 300px;
  width: 33%;
 
 }
+
+/*->*/
+
+a {
+	text-decoration: none;
+}
+
+a:visited {
+	color: #0F4C75;
+}
+
+.prodL, .prodL:visited, .prodL:active{
+	
+	color: white;
+	
+}
+
+.custom-table{
+	margin-left: 1%;
+	margin-right: 1%;
+	margin-top: 2rem;
+}
+
+.custom-table table{
+	text-align: center;
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.custom-table table, .custom-table table td{
+	border: none;
+	padding-top: .5em;
+	padding-bottom: .5em;
+
+}
+
+.custom-table table tr{
+
+	background-color: rgba(0, 0, 0, 0);
+	color: #bbe1fa;
+	font-size: 1.2em;
+	border-bottom: solid #ffffff .0625em;
+	border-top: solid #ffffff .0625em;
+
+}
+
+.custom-table td{
+
+ 	display: inline-block; 
+
+}
+
+#custom-table-admin td, #custom-table-orders td{
+	
+	display: table-cell;
+	
+}
+
+.custom-table td:last-child {
+	
+	padding-right: 1em;
+	
+}
+
+.immagine{
+	
+	width: 30%;
+	
+}
+
+.immagineCart{
+	
+	width: 20%;
+	
+}
+
+.totCart{
+	
+	width: 10%;
+	padding-left: 1%;
+	
+}
+
+/* .ident{ */
+	
+/* 	width: 5%; */
+	
+/* } */
+
+.titoloProd{
+	
+	width: 20%;
+	
+}
+
+.prezzoProd{
+	
+	width: 10%;
+	padding-left: 5%;
+	
+}
+
+.prezzoProdCart{
+	
+	width: 20%;
+		
+}
+
+.qtaProd{
+	
+	width: 10%;
+	
+}
+
+.delProd{
+	
+	width: 15%;
+	
+}
+
+.deleteCart{
+	
+	display: inline-block;
+	padding-left: 53%;
+	
+}
+
+.bottoni{
+	
+	width: 20%;
+	padding: 10%;
+	
+}
+
+
+
+.custom-table img{
+	
+	width: 40%;
+	
+}
+
+.custom-select {
+	
+  	display: inline;
+
+}
+
+.custom-select option, .custom-select select{
+	background-color: #3282b8;
+	color: white;
+	font-size: 1em;
+	padding: .3em;
+}
+
+.custom-select select, #sort-submit{
+	vertical-align: middle;
+}
+
+#ordinaPer{
+	
+	margin-top: 2%;
+	margin-left: 1%;
+	
+}
+
+.button {
+	background-color: #fff;
+	border-radius: 2em;
+	color: #0F4C75;
+	display: inline-block;
+	font-size: 0.75rem;
+	line-height: 1;
+	padding: 1em 1.75em;
+	user-select: none;
+	vertical-align: top;
+	margin: .5em .2em;
+}
+
+.button:hover{
+
+	cursor: pointer;
+	
+}
+
+.incorrect{
+	color: red;	
+}
+
+.login-form{
+	margin: 0 auto;
+	width: 75%;
+	margin-top: 1.25em;
+}
+
+.login-form form{
+	text-align: center;
+	font-size: 1.25em;
+}
+
+.login-form form fieldset{
+
+	border: 0;
+}
+
+.login-form form fieldset input{
+	height: 1.5em;
+	font-size: inherit;
+	border-radius: 1em;
+	width: 15em;
+	padding-left: .5em;
+	margin-left: .75em;
+}
+
+input{
+	
+	margin-bottom: .5em;
+	
+}
+
+#register-p{
+
+	text-align: center;
+	margin-top: 1em;
+}
+
+
+.details{
+	display: flex;
+	width: 75%;
+	margin: auto;
+}
+
+.details .details-p{
+/* 	width: 40%; */
+	font-size: 1.5em;
+	margin-left: 4em;
+	margin-top: 1.5em;
+	margin-right: 1em;
+	padding-left: 1em;
+	padding-right: 1em;
+	background-color: #0F4C75;/*465e6e*/
+	border-radius: .75em;
+	text-align: center;
+	color: #bbe1fa;	
+}
+
+.details .details-p p:first-child{
+	font-size: 1.5em;
+	font-weight: bolder;
+	text-shadow: 2px 0 0 #1b262c, -2px 0 0 #1b262c, 0 2px 0 #1b262c, 0 -2px 0 #1b262c, 1px 1px #1b262c, -1px -1px 0 #1b262c, 1px -1px 0 #1b262c, -1px 1px 0 #1b262c;
+}
+
+.details img{
+	width: 30%;
+	max-height: 526px;
+	min-width: 316px;
+	margin-left: 2em;
+	margin-top: 2em;
+	padding: .5em;
+	background-color: #0F4C75;
+	border-radius: 1em;
+}
+
+#scheda{
+	
+	width: 50%;
+	margin: 2em auto;
+	min-width: 300px;
+	
+}
+
+@media screen and (max-width: 1000px) {
  
+  .topnav a:not(:first-child), .logo {
+  
+  	display: none;
+  	
+  }
+  
+  .topnav a:first-child{
+  	
+  	margin-top: 13.5%;
+  
+  }
+  
+  .topnav a.icon {
+  
+    float: right;
+    display: block;
+    
+  }
+
+  .topnav.responsive {
+  
+  	position: relative;
+  
+  }
+  
+  .topnav.responsive .icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  
+  .topnav.responsive a {
+    float: none;
+    display: block;
+    text-align: left;
+  }
+
+	
+	/* Per far apparire gli elementi del catalogo in colonna*/
+	.custom-table td{
+	
+		width: 100%;
+
+	}
+	
+	#custom-table-orders th, #custom-table-orders td{
+	
+		font-size: 12px;
+	
+	}
+	
+	.daRidurre td{
+	
+		display: inline-block;
+		width: 15%;
+	
+	}
+	
+	.prezzoProd{
+	
+		padding: 0%;
+	
+	}
+	
+	.bottoni{
+	
+		padding: 0%;
+	
+	}
+	
+	.deleteCart{
+	
+		padding: 0%;
+	
+	}
+	
+	/*Per far apparire gli elementi del catalogo dell'admin in colonna*/
+	
+	#custom-table-admin td{
+	
+		display: inline-block;
+	
+	}
+	
+	/*Per far sparire gli header del catalogo dell'admin*/
+	
+	.headings{
+	
+		display: none;
+		
+	}
+	
+	/*Per far apparire in colonna gli elementi della pagina prodotto*/
+	
+	.details{
+	
+		flex-direction: column;
+		margin-top: 2%;
+			
+	}
+	
+	.details img{
+	
+		margin: 0 auto;
+		min-width: unset;
+	
+	}
+	
+	/*I seguenti con pseudoelemento ::before servono per sostituire gli header della tabella dell'admin*/
+	
+	.idAdm::before {
+	
+		content: "Codice: ";
+	
+	}
+	
+	.titoloAdm::before{
+	
+		content: "Titolo: ";
+		
+	}
+	
+	.noivaFAdm::before{
+	
+		content: "Prezzo fisico senza IVA: ";
+		
+	}
+	
+	.ivaFAdm::before{
+	
+		content: "Prezzo fisico con IVA: ";
+		
+	}
+	
+	.noivaDAdm::before{
+	
+		content: "Prezzo digitale senza IVA: ";
+	
+	}
+	
+	.ivaDAdm::before{
+	
+		content: "Prezzo digitale con IVA: ";
+		
+	}
  
- @media screen and (max-width: 600px) {
-   .topnav .search-container {
-     float: none;
-   }
-   .topnav a, .topnav input[type=text], .topnav .search-container button, .topbar #utente {
-     float: none;
-     display: block;
-     text-align: left;
-     width: 100%;
-     margin: 0;
-     padding: 14px;
-   }
-   
-   .topnav input[type=text] {
-     border: 1px solid #ccc;  
-   }
-   
- }
-
-
-
+}

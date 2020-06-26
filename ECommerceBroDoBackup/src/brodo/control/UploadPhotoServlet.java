@@ -31,8 +31,7 @@ public class UploadPhotoServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PrintWriter out = response.getWriter();
 		response.setContentType("text/plain");
-
-		out.write("Error: GET method is used but POST method is required");
+		out.write("Errore: serve una post");
 		out.close();
 	}
 
@@ -40,16 +39,19 @@ public class UploadPhotoServlet extends HttpServlet {
 		
 		String id = request.getParameter("id");
 		
+		//Costruiamo il path completo della cartella in cui salvare temporaneamente l'immagine
 	    String appPath = request.getServletContext().getRealPath("");
 	    String savePath = appPath + File.separator + SAVE_DIR;
 	         
 		File fileSaveDir = new File(savePath);
-		if (!fileSaveDir.exists()) {
+		if (!fileSaveDir.exists()) {	//Se la cartella non esiste la si crea
 			fileSaveDir.mkdir();
 		}
 
-		for (Part part : request.getParts()) {
-			String fileName = extractFileName(part);
+		for (Part part : request.getParts()) {		//Si prende l'immagine dalla richiesta
+			
+			String fileName = extractFileName(part);	//Si prende il path dell'immagine
+			
 			if((File.separator).equals("/")) {
 				
 				int index = fileName.lastIndexOf("/");
@@ -61,14 +63,23 @@ public class UploadPhotoServlet extends HttpServlet {
 				fileName = fileName.substring(index + 1);
 
 			}
+			
 			if (fileName != null && !fileName.equals("")) {
-				part.write(savePath + File.separator + fileName);
+				
+				part.write(savePath + File.separator + fileName);	//si inserisce la foto nella cartella temporanea
+				
 				try {
-					ProdottoDAO.updatePhoto(id, savePath + File.separator + fileName);
-				} catch (SQLException sqlException) {
-					System.out.println(sqlException);
+					
+					ProdottoDAO.updatePhoto(id, savePath + File.separator + fileName);		//si carica la foto nel database
+					
+				} catch (SQLException e) {
+					
+					e.printStackTrace();
+				
 				}
+				
 			}
+			
 		}
 		RequestDispatcher view = request.getRequestDispatcher("/CatalogoAdmin.jsp");
 		view.forward(request, response);
@@ -77,11 +88,16 @@ public class UploadPhotoServlet extends HttpServlet {
     private String extractFileName(Part part) {
         String contentDisp = part.getHeader("content-disposition");
         String[] items = contentDisp.split(";");
+        
         for (String s : items) {
+        	
             if (s.trim().startsWith("filename")) {
+            	
                 return s.substring(s.indexOf("=") + 2, s.length()-1);
+                
             }
         }
+        
         return "";
     }		
 

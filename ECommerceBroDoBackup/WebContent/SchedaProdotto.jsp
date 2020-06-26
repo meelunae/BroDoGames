@@ -1,3 +1,4 @@
+<%@page import="java.util.Locale"%>
 <%@page import="brodo.model.ProdottoBean"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
@@ -17,16 +18,40 @@
 </head>
 <body>
 <%@include file="Header.jsp" %>
-	<img src="GetPicture?id=<%=p.getId() %>" onerror="this.src='./imgs/nophoto.png'" style="width:100px">
-	<p><%=p.getTitolo() %></p>
-	<p><%=p.getCasaSviluppatrice() %></p>
-	<p><%=p.getPegi() %>
-	<p><%=p.getDescrizione() %></p>
-	<p>Prezzo Digitale:<%=p.getPrezzoDig() %></p>
-	<p>Prezzo Fisico:<%=p.getPrezzoFis() %></p>
-	<p>Quantita' Fisica:<%=p.getQtaFis() %></p>
-	<p>Quantita' Digitale:<%=p.getQtaDig() %></p>
-	<a href="Catalogo">Torna al catalogo</a>
+	<div class="details">
+		<img src="GetPicture?id=<%=p.getId() %>" onerror="this.src='./imgs/nophoto.png'">
+			<div class="details-p">
+			<p><%=p.getTitolo() %></p>
+			<p><%=p.getCasaSviluppatrice() %></p>
+			<p>PEGI <%=p.getPegi() %>
+			<p>Descrizione: <%=p.getDescrizione() %></p>
+			<%if(p.isInVendita()){ %>
+			<%double dig = p.getPrezzoDig(); %>
+			<p>Prezzo Digitale: <%=String.format(Locale.CANADA, "%.2f", dig) + " EUR"%></p>
+			<%double fis = p.getPrezzoFis(); %>
+			<p>Prezzo Fisico: <%=String.format(Locale.CANADA, "%.2f", fis) + " EUR"%></p>
+			<a class="button" onclick="event.preventDefault(); aggiungiCarrello(<%="'fis'"%>, <%=p.getId() %>)">Aggiungi al carrello (Fisico)</a><br>			
+			<a class="button" onclick="event.preventDefault(); aggiungiCarrello(<%="'dig'"%>, <%=p.getId()%>)">Aggiungi al carrello (Digitale)</a><br>
+			<form action=Wishlist>
+					<input type="hidden" value="add" name="action">
+			<input type=hidden value=<%=p.getId() %> name="idProdotto">
+			<input type=hidden value=<%=session.getAttribute("userId")%> name="idUtente">
+			<div id=<%=p.getId() %>></div>
+			<button class="button">Aggiungi alla Wishlist</button>
+			<%} else{ %>
+			
+			<div>Prodotto non più in vendita :(</div>
+			
+			<%} %>
+				
+		</form>
+		
+		</div>
+		
+	</div>
+	
 <%@include file="Footer.jsp" %>
+<script src="jquery.js"></script>
+<script src="script.js"></script>
 </body>
 </html>

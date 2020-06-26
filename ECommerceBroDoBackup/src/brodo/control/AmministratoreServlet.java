@@ -34,7 +34,6 @@ public class AmministratoreServlet extends HttpServlet {
      */
     public AmministratoreServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -61,15 +60,14 @@ public class AmministratoreServlet extends HttpServlet {
 				prod.setQtaFis(Integer.parseInt(request.getParameter("qtaFisico")));
 				prod.setQtaDig(Integer.parseInt(request.getParameter("qtaDigitale")));
 				prod.setCasaSviluppatrice(request.getParameter("casaSviluppatrice"));
-				//prod.setInVendita(Boolean.parseBoolean(request.getParameter("inVendita")));
 				prod.setInVendita(true);
+				prod.setConsole(request.getParameter("console"));
 				prod.setPegi(Integer.parseInt(request.getParameter("pegi")));
 				prod.setData(request.getParameter("dataUscita"));
 				p.doSave(prod);
 				
 			} else if(request.getParameter("action").equalsIgnoreCase("deleteProdotto")) {
 				
-				//p.doDelete(Integer.parseInt(request.getParameter("id")));
 				p.doNotOnSale(Integer.parseInt(request.getParameter("id")));
 				
 			} else if(request.getParameter("action").equalsIgnoreCase("edit")) {
@@ -93,7 +91,6 @@ public class AmministratoreServlet extends HttpServlet {
 				
 			} else if(request.getParameter("action").equalsIgnoreCase("scegliModifica")) {
 				
-				//request.removeAttribute("prodDaMod");
 				request.setAttribute("prodDaMod", (ProdottoBean) p.doRetrieveByKey(Integer.parseInt(request.getParameter("id"))));
 				
 			} 

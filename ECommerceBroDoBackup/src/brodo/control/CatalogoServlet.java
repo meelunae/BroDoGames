@@ -10,7 +10,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
+
 import brodo.model.Carrello;
+import brodo.model.Esito;
 import brodo.model.ProdottoDAO;
 
 /**
@@ -51,14 +54,25 @@ public class CatalogoServlet extends HttpServlet {
 		
 		if(action != null && !action.equals("")) {
 			
-			if(action.equalsIgnoreCase("addC")) {
+			if(action.equalsIgnoreCase("addC")) {	//Se l'utente sceglie di aggiungere il prodotto al carrello
+				
+				String esito;	//serve per ottenere il JSON relativo all'esito dell'aggiunta al carrello
 				
 				if(request.getParameter("tipo").equals("fisico")) {
-					c.aggiungiProdotto(p.doRetrieveByKey(Integer.parseInt(request.getParameter("id"))), true);
+					
+					esito = c.aggiungiProdotto(p.doRetrieveByKey(Integer.parseInt(request.getParameter("id"))), true);
+				
 				} else {
-					c.aggiungiProdotto(p.doRetrieveByKey(Integer.parseInt(request.getParameter("id"))), false);
+					
+					
+					esito = c.aggiungiProdotto(p.doRetrieveByKey(Integer.parseInt(request.getParameter("id"))), false);
 				}
+				
 				request.getSession().setAttribute("carrello", c);
+				response.setContentType("application/json");
+				response.setCharacterEncoding("utf-8");
+				response.getWriter().write(esito);
+				return;
 				
 			} else if(action.equalsIgnoreCase("details")) {
 				

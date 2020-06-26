@@ -9,33 +9,41 @@
 </head>
 <header>
 
+	<div class="topnav" id="myTopnav">
+			<div class="logo"><a href="Catalogo"><img height="100px" src="imgs/BroDoLogo.png"></a></div>
+			<div class="links">
+		  		<a href="Catalogo">Catalogo</a>
+	            <% if (session.getAttribute("carrello") != null) { %>
+	            <a href="Carrello" id="qtaCart">Carrello (<%= ( (Carrello) session.getAttribute("carrello")).getNumProdotti() %>)</a>
+	            <% } else { %>
+	            <a href="CarrelloServlet">Carrello (0)</a>
+	            <% } %>
+				<a href="Wishlist?idUtente=<%= session.getAttribute("userId") %>">Wishlist</a>
+	            <% if(session.getAttribute("admin") != null){ %>	
+	            <a href="Amministratore">Pannello Amministratore</a>
+	            <% } %>
+	            <% if(session.getAttribute("userLogged") != null){ %>
+	            <a href="ProfiloUtente?id=<%= session.getAttribute("userId") %>" id="utente">Bentornato, <%= session.getAttribute("username") %></a>
+	            <a href="LogOut" id="utente">Logout</a>
+	            <% } else { %>
+	            <a href="LogIn.jsp" id="utente">Login</a>
+	            <% } %>
+            </div>
+	  <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+	    <img src="imgs/hamburger.png" width="42px">
+	  </a>
+	</div>
 	
-	<div class="topnav">
-			<a href="Catalogo"><image id="logo" src="https://cdn.discordapp.com/attachments/690652460439830601/721367239181336576/Senza_titolo1.png"></a>
-            <a href="Catalogo">Catalogo</a>
-            <% if (session.getAttribute("carrello") != null) { %>
-            <a href="CarrelloServlet">Carrello (<%= ( (Carrello) session.getAttribute("carrello")).getNumProdotti() %>)</a>
-            <% } else { %>
-            <a href="CarrelloServlet">Carrello (0)</a>
-            <% } %>
-            <% if(session.getAttribute("admin") != null){ %>	
-            <a href="Amministratore">Pannello Amministratore</a>
-            <% } %>
-            <% if(session.getAttribute("userLogged") != null){ %>
-            <% System.out.println(session.getAttribute("userId")); %>
-            <a href="ProfiloUtente?id=<%= session.getAttribute("userId") %>" id="utente">Bentornato, <%= session.getAttribute("username") %></a>
-            <a href="LogOut" id="utente">Effettua il logout</a>
-            <% } else { %>
-            <a href="LogIn.jsp" id="utente">Effettua il login</a>
-            <% } %>
-    <div class="search-container">
-        <form action="/action_page.php">
-        <input type="text" placeholder="Search.." name="search">
-        <button type="submit">Go!</button>
-        </form>
-    </div>
-    	 
-</div>
-	
+	<script>
+	function myFunction() {
+	  var x = document.getElementById("myTopnav");
+	  if (x.className === "topnav") {
+	    x.className += " responsive";
+	  } else {
+	    x.className = "topnav";
+	  }
+	}
+	</script>
+
 </header>
 </html>

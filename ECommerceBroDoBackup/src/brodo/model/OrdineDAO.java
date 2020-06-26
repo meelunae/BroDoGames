@@ -153,7 +153,7 @@ public class OrdineDAO {
 		
 		Connection conn = null;
 		PreparedStatement ps = null;
-		String query = "SELECT * FROM ordine WHERE dataOra > ? AND dataOra < ?";
+		String query = "SELECT * FROM ordine WHERE dataOra >= ? AND dataOra <= ?";
 		ArrayList<Ordine> result = new ArrayList<Ordine>();
 		
 		try {

@@ -32,8 +32,7 @@ public class LogOutServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		request.getSession().invalidate();
 		response.sendRedirect("Catalogo");
-//		RequestDispatcher view = request.getRequestDispatcher("Catalogo");
-//		view.forward(request, response);
+
 	}
 
 	/**

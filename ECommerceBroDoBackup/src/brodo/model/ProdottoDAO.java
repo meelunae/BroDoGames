@@ -46,8 +46,8 @@ public class ProdottoDAO {
 			ps = conn.prepareStatement(query);
 			ps.setString(1, prod.getTitolo());
 			ps.setInt(2, prod.getnVenduti());
-			ps.setDouble(3, prod.getPrezzoFis());
-			ps.setDouble(4, prod.getPrezzoDig());
+			ps.setDouble(3, prod.getPrezzoFisSenzaIva());
+			ps.setDouble(4, prod.getPrezzoDigSenzaIva());
 			ps.setString(5, prod.getDescrizione());
 			ps.setInt(6, prod.getQtaFis());
 			ps.setInt(7, prod.getQtaDig());
@@ -102,8 +102,8 @@ public class ProdottoDAO {
 			result.setId(rs.getInt("id"));
 			result.setTitolo(rs.getString("titolo"));
 			result.setnVenduti(rs.getInt("numVenduti"));
-			result.setPrezzoFis(rs.getInt("prezzoFisico"));
-			result.setPrezzoDig(rs.getInt("prezzoDigitale"));
+			result.setPrezzoFis(rs.getDouble("prezzoFisico"));
+			result.setPrezzoDig(rs.getDouble("prezzoDigitale"));
 			result.setDescrizione(rs.getString("descrizione"));
 			result.setQtaFis(rs.getInt("qtaFisico"));
 			result.setQtaDig(rs.getInt("qtaDigitale"));
@@ -221,8 +221,8 @@ public class ProdottoDAO {
 					result.setId(rs.getInt("id"));
 					result.setTitolo(rs.getString("titolo"));
 					result.setnVenduti(rs.getInt("numVenduti"));
-					result.setPrezzoFis(rs.getInt("prezzoFisico"));
-					result.setPrezzoDig(rs.getInt("prezzoDigitale"));
+					result.setPrezzoFis(rs.getDouble("prezzoFisico"));
+					result.setPrezzoDig(rs.getDouble("prezzoDigitale"));
 					result.setDescrizione(rs.getString("descrizione"));
 					result.setQtaFis(rs.getInt("qtaFisico"));
 					result.setQtaDig(rs.getInt("qtaDigitale"));
@@ -395,8 +395,8 @@ public class ProdottoDAO {
         PreparedStatement ps = null;
         String query = "UPDATE prodotto SET qtaFisico = ? WHERE id = ?";
         try{
-        	//System.out.println("Id:" + id);
-            conn = ds.getConnection();
+
+        	conn = ds.getConnection();
             ps = conn.prepareStatement(query);
             ps.setInt(1, newQta);
             ps.setInt(2, id);
@@ -753,20 +753,23 @@ public synchronized void doSumQtaFisico(int id, int qta) {
 		PreparedStatement stmt = null;
 
 		try {
-			con = ds.getConnection();
-
-			stmt = con.prepareStatement("UPDATE prodotto SET cover = ? WHERE id = ?");
 			
+			con = ds.getConnection();
+			stmt = con.prepareStatement("UPDATE prodotto SET cover = ? WHERE id = ?");	
 			File file = new File(photo);
 			FileInputStream fis = new FileInputStream(file);
 			stmt.setBinaryStream(1, fis, fis.available());
 			stmt.setString(2, idA);
-				
 			stmt.executeUpdate();
+			
 			} catch (FileNotFoundException e) {
+				
 				System.out.println(e);
+				
 			} catch (IOException e) {
+				
 				System.out.println(e);
+				
 			}
 			
 			try {
@@ -808,7 +811,7 @@ public synchronized void doSumQtaFisico(int id, int qta) {
 				ps.setInt(1, p.getProdotto().getId());
 				ResultSet rs = ps.executeQuery();
 				rs.next();
-				if(rs.getDouble("prezzoFisico") != p.getProdotto().getPrezzoFisSenzaIva()) {
+				if(rs.getDouble("prezzoFisico") != p.getProdotto().getPrezzoFisSenzaIva()) {	
 					
 					output += "Il prezzo fisico del prodotto" + p.getProdotto().getTitolo() + " ha subito una variazione ";
 					p.getProdotto().setPrezzoFis(rs.getDouble("prezzoFisico"));
@@ -829,7 +832,7 @@ public synchronized void doSumQtaFisico(int id, int qta) {
 					
 				}
 				
-				p.getProdotto().setQtaFis(rs.getInt("qtaFisico"));
+				p.getProdotto().setQtaFis(rs.getInt("qtaFisico"));	//in ogni caso si aggiorna la quantità fisica massima
 				
 				if(rs.getInt("qtaDigitale") < p.getQtaDig()) {
 					output += "La quantita' digitale del prodotto" + p.getProdotto().getTitolo() + " ha subito una variazione ";
@@ -837,7 +840,7 @@ public synchronized void doSumQtaFisico(int id, int qta) {
 					
 				}
 				
-				p.getProdotto().setQtaDig(rs.getInt("qtaDigitale"));
+				p.getProdotto().setQtaDig(rs.getInt("qtaDigitale"));	//in ogni caso si aggiorna la quantità digitale massima
 				
 				if(!rs.getBoolean("invendita")) {
 					

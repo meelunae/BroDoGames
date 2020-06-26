@@ -3,36 +3,43 @@ function validateSignUp(obj){
 	$("#name").focus(function (){
 		
 		$("#name").css("background-color", "white");
+		$("#errNome").html("");
 		
 	});
 	
 	$("#surname").focus(function (){
 		
 		$("#surname").css("background-color", "white");
+		$("#errCognome").html("");
 		
 	});
 	
 	$("#date").focus(function (){
 		
 		$("#date").css("background-color", "white");
+		$("#errData").html("");
 		
 	});
 	
 	$("#email").focus(function(){
 	
 		$("#email").css("background-color", "white");
+		$("#errEmail").html("");
 		
 	});
 	
 	$("#username").focus(function(){
 		
 		$("#username").css("background-color", "white");
+		$("#errUsername").html("");
 	
 	});
 	
 	$("#password").focus(function(){
 		
 		$("#password").css("background-color", "white");
+		$("#errPw").html("");
+		
 	
 	});
 	
@@ -68,7 +75,7 @@ function validateSignUp(obj){
 	}
 	
 	var nascita = $("#date").val();
-	console.log(nascita);
+
 	if(!checkData(nascita)){
 		
 		$("#date").css("background-color", "rgba(255, 0, 0, 0.5)");
@@ -137,16 +144,19 @@ function validateSignUp(obj){
 }
 
 function validateLogIn(obj){
-	console.log("CIAO");
+
+	//Per evitare che lo sfondo continui ad apparire rosso se si sbagliano le credenziali e che appaia la scritta di errore
 	$("#email").focus(function(){
 		
 		$("#email").css("background-color", "white");
+		$("#errEmail").html("");
 		
 	});
 	
 	$("#pw").focus(function(){
 		
 		$("#pw").css("background-color", "white");
+		$("#errPw").html("");
 	
 	});
 	
@@ -191,7 +201,7 @@ function validateLogIn(obj){
 
 function checkNomeCognome(name){
 	
-	var pattern=/^[A-Za-z]+$/;
+	var pattern=/^[A-Za-z]+(\s([A-Za-z])+)*$/;
 	if(name.match(pattern)){
 		
 		return true;
@@ -205,7 +215,6 @@ function checkNomeCognome(name){
 function checkData(nascita){
 	
 	var anno = nascita.substring(0, nascita.indexOf("-"));
-	console.log(anno);
 	anno = parseInt(anno, 10);
 	if(anno >= 1900 && anno <= (new Date()).getFullYear() - 13){
 		
@@ -260,11 +269,239 @@ function setQta(a, i){
 	var newFis = $("#fis" + i).val();
 	var newDig = $("#dig" + i).val();
 	var idProd = $("#id" + i).val();
-	var request = "CarrelloServlet?action=updateQta&id=" + idProd + "&newQtaFis=" + newFis + "&newQtaDig=" + newDig;
-	$.getJSON(request, function(data){
+	var request = "Carrello?action=updateQta&id=" + idProd + "&newQtaFis=" + newFis + "&newQtaDig=" + newDig;
+	
+	$.get(request, function(data){
 		
-		console.log(data);
+		//fisDef e digDef servono per il calcolo del totale
+		var fisDef = newFis;
+		var digDef = newDig;
+		var count = parseInt($("#counter").html(), 10);
+		
+		if(newFis == 0 && newDig == 0){
+			
+			$("#qtaCart").html("Carrello (" + data.sizeCart + ")");  //Aggiorna l'header
+			$("#row"+i).remove();	//Rimuovi quella riga
+			count = count - 1;		//Riduci il contatore che indica il numero di prodotti
+			$("#counter").html(count);	//Aggiorna il contatore
+			
+		}
+
+		if(!data.esito){	//se una delle due quantità eccede la quantità presente nel catalogo
+
+			if(newFis != data.nuovoFisico){		//Se è la quantità fisica ad eccedere 
+				
+				$("#fis" + i).val(data.nuovoFisico);
+				$("#fis" + i).css("background-color", "rgba(255, 0, 0, 0.5)");
+				$("#errFis" + i).html("Quantita' ecceduta!");
+				$("#errFis" + i).css("color", "red");
+				fisDef = data.nuovoFisico;
+				
+			} else {	//Pulisci gli eventuali errori generati prima
+				
+				$("#fis" + i).val(newFis);
+				$("#fis" + i).css("background-color", "white");
+				$("#errFis" + i).html("");
+				
+			}
+
+			if(newDig != data.nuovoDigitale){		//Se è la quantità digitale ad eccedere stessa cosa fatta per la quantità fisica
+				
+
+				$("#dig" + i).val(data.nuovoDigitale);		
+				$("#dig" + i).css("background-color", "rgba(255, 0, 0, 0.5)");	
+				$("#errDig" + i).html("Quantita' ecceduta!");
+				$("#errDig" + i).css("color", "red");
+				digDef = data.nuovoDigitale;
+				
+			} else {
+				
+				$("#dig" + i).val(newDig);
+				$("#dig" + i).css("background-color", "white");
+				$("#errDig" + i).html("");
+				
+			}
+			
+		} else {		//se invece i valori introdotti sono entrambi ok pulisci eventuali errori generati prima
+			
+			$("#fis" + i).val(newFis);
+			$("#fis" + i).css("background-color", "white");
+			$("#errFis" + i).html("");
+			$("#dig" + i).val(newDig);
+			$("#dig" + i).css("background-color", "white");
+			$("#errDig" + i).html("");
+					
+		}
+		
+		
+		if(count == 0){
+			
+			$("#tabella").append("<tr><td>Nessun prodotto nel carrello<td><tr>");
+			$("#totd").remove();
+			$("#checkout-submit").remove();
+			
+		}
+		
+		var prezzoF = parseFloat($("#priceF"+i).html());	//salvo il prezzo fisico
+		var prezzoD = parseFloat($("#priceD"+i).html());	//salvo il prezzo digitale
+		var totParziale = prezzoF * fisDef + prezzoD * digDef;	//calcolo il totale
+
+		$("#totParziale"+i).html(totParziale.toFixed(2) + " EUR");		//aggiorno il totale parziale
+		var importoTotale = 0;
+		for(k = 0; k < count; k++){
+			
+			if(parseFloat($("#totParziale"+k).html()) >= 0){
+				
+
+				importoTotale += parseFloat($("#totParziale"+k).html())
+
+				
+			} else {
+				
+				count = count + 1;
+				
+			}
+		}
+		
+		$("#totd").html("Totale Ordine: " + importoTotale.toFixed(2) + " EUR");
+
+	});		
+		
+}
+
+function remove(obj, count){
+	
+	$("#fis" + count).val("0");
+	$("#dig" + count).val("0");
+	setQta(obj, count);
+	
+}
+
+function aggiungiCarrello(tipo, id){
+
+	if(tipo == "fis"){
+		var a;
+		$.get("Catalogo?action=addC&tipo=fisico&id=" + id, function(data){
+		
+			if(data.esito == true){
+				
+				window.clearTimeout();
+				$("#qtaCart").html("Carrello " + "(" + data.sizeCart + ")");
+				$("#"+id).html("Aggiunto");
+				$("#"+id).css("color", "#66FF00");
+				a = window.setTimeout(function(){
+				
+					$("#"+id).html("");
+					window.clearTimeout();
+					
+				}, 2000);
+				
+					
+			} else {
+				
+				window.clearTimeout();
+				$("#qtaCart").html("Carrello " + "(" + data.sizeCart + ")");
+				$("#"+id).html("Non disponibile");
+				$("#"+id).css("color", "red");
+				a = window.setTimeout(function(){
+				
+					$("#"+id).html("");
+					window.clearTimeout();
+					
+				}, 2000);	
+
+			}
+			
+		});
+	
+	} else {
+		
+		$.get("Catalogo?action=addC&tipo=digitale&id=" + id, function(data){
+			
+			if(data.esito == true){
+				
+				window.clearTimeout();
+				$("#qtaCart").html("Carrello " + "(" + data.sizeCart + ")");
+				$("#"+id).html("Aggiunto");
+				$("#"+id).css("color", "#66FF00");
+				window.setTimeout(function(){
+				
+					$("#"+id).html("");
+					window.clearTimeout();
+					
+				}, 2000);
+					
+			} else {
+				
+				window.clearTimeout();
+				$("#qtaCart").html("Carrello " + "(" + data.sizeCart + ")");
+				$("#"+id).html("Non disponibile");
+				$("#"+id).css("color", "red");
+				window.setTimeout(function(){
+				
+					$("#"+id).html("");
+					window.clearTimeout();
+					
+				}, 2000);		
+	
+			}
+			
+		});
+		
+	}
+}
+
+$(document).ready(function(){
+	
+	$("input").focus(function(){
+		
+		$(this).css("border", "thick solid blue");
 		
 	});
+	
+	$("input").blur(function(){
+	
+		$(this).css("border", "none");
 		
+	});
+	
+	$(".custom-table img").mouseover(function(){
+		
+		if(window.innerWidth > 1000){
+		
+			$(this).animate({
+				
+				width: '50%'
+				
+			});
+			
+		}
+		
+	});
+	
+	
+	
+	$(".custom-table img").mouseout(function(){
+		
+		if(window.innerWidth > 1000){
+
+			$(this).animate({
+				
+				width: '40%'
+				
+			});
+			
+		}
+		
+	
+	});
+	
+	
+	
+});
+
+function removeWishList(obj, count){
+	
+	$("#"+count).remove();
+	
 }

@@ -32,17 +32,20 @@ public class GetPictureServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		String id = (String) request.getParameter("id");
-		if (id != null)
-		{
+		if (id != null) {
+			
 			byte[] bt = ProdottoDAO.load(id);
 		
 			ServletOutputStream out = response.getOutputStream();
-			if(bt != null)
-			{
+			if(bt != null) {
+				
 				out.write(bt);
-				response.setContentType("image/jpeg");			
+				response.setContentType("image/jpeg");		
+				
 			}
+			
 			out.close();
+			
 		}
 				
 	}

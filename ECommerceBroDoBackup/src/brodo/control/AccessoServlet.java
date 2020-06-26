@@ -44,14 +44,17 @@ public class AccessoServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		UserBean result = u.checkLogin(email, password);
 		if(result == null){
-			System.out.println("eccomi");
+
+			session.removeAttribute("admin");
+			session.removeAttribute("userLogged");
+			session.removeAttribute("userId");
 			session.setAttribute("incorrect", true);
 			RequestDispatcher view = request.getRequestDispatcher("/LogIn.jsp");
 			view.forward(request, response);
 			return;
 			
 		} else if(result.isAdmin()) {
-			System.out.println("admin");
+
 			session.removeAttribute("incorrect");
 			session.setAttribute("admin", true);
 			session.setAttribute("userLogged", true);
@@ -62,7 +65,8 @@ public class AccessoServlet extends HttpServlet {
 			return;
 			
 		} else {
-			System.out.println("utente");
+
+			session.removeAttribute("admin");
 			session.removeAttribute("incorrect");
 			session.setAttribute("userLogged", true);
 			session.setAttribute("userId", result.getId());

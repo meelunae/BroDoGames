@@ -35,9 +35,6 @@ public class UserDAO {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		boolean success = true;
-		//String pw = user.getPassword();
-		//String encPw = "SELECT PASSWORD('"+ pw +"')";
-		//String encPw ="SELECT PASSWORD(?)";
 		String query = "INSERT INTO utente (nome, cognome, dataNascita, username, password, email, citta, via, numCivico, cap, admin) VALUES (?, ?, ?, ?, SHA(?), ?, ?, ?, ?, ?, ?)";
 		try {
 			
@@ -256,27 +253,24 @@ public class UserDAO {
 			ps = conn.prepareStatement(query);
 			ps.setString(1, password);
 			ps.setString(2, email);
-			//System.out.println(ps);
 			ResultSet rs = ps.executeQuery();
-			if(!rs.next()) {
+			if(rs.next()) {
 				
-				//System.out.println("ciao");
-				return null;
+				result = new UserBean();
+				result.setId(rs.getInt("id"));
+				result.setNome(rs.getString("nome"));
+				result.setCognome(rs.getString("cognome"));
+				result.setDataNascita(rs.getString("dataNascita"));
+				result.setUsername(rs.getString("username"));
+				result.setPassword(rs.getString("password"));
+				result.setEmail(rs.getString("email"));
+				result.setCitta(rs.getString("citta"));
+				result.setVia(rs.getString("via"));
+				result.setNumCivico(rs.getInt("numCivico"));
+				result.setCap(rs.getInt("cap"));
+				result.setAdmin(rs.getBoolean("admin"));	
 				
-			}
-			result = new UserBean();
-			result.setId(rs.getInt("id"));
-			result.setNome(rs.getString("nome"));
-			result.setCognome(rs.getString("cognome"));
-			result.setDataNascita(rs.getString("dataNascita"));
-			result.setUsername(rs.getString("username"));
-			result.setPassword(rs.getString("password"));
-			result.setEmail(rs.getString("email"));
-			result.setCitta(rs.getString("citta"));
-			result.setVia(rs.getString("via"));
-			result.setNumCivico(rs.getInt("numCivico"));
-			result.setCap(rs.getInt("cap"));
-			result.setAdmin(rs.getBoolean("admin"));			
+			}		
 			
 		} catch(SQLException e) {
 			
